@@ -1,25 +1,25 @@
-"use client";
 import React, { useState, useEffect } from 'react';
 import { MdFavorite } from "react-icons/md";
 
 const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeFromFavorites, isCityFavorite }) => {
      const { name, main, weather } = weatherData;
-     const [isFavorite, setIsFavorite] = useState(isCityFavorite);
+     const [isFavorite, setIsFavorite] = useState(isCityFavorite(name));
+     const [error, setError] = useState(null);
 
      useEffect(() => {
-          setIsFavorite(isCityFavorite);
-     }, [isCityFavorite]);
+          setIsFavorite(isCityFavorite(name));
+     }, [isCityFavorite, name]);
 
      const handleFavoriteClick = async () => {
           try {
                if (isFavorite) {
                     await removeFromFavorites(name);
                } else {
-                    await addToFavorites(name);
+                    await addToFavorites({ name, main, weather });
                }
                setIsFavorite(!isFavorite);
           } catch (error) {
-               console.error('Error toggling favorite:', error);
+               setError('Error toggling favorite. Please try again.');
           }
      };
 
