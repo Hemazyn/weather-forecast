@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import SearchComponent from '../components/SearchComponent';
 import WeatherDisplay from '../components/WeatherDisplay';
@@ -98,8 +98,8 @@ const WeatherDashboard = () => {
           return favoriteCities.some(city => city.name === cityName);
      };
 
-     const handleFavoriteClick = async (cityId) => {
-          await handleSearch(cityId);
+     const handleFavoriteClick = async (cityName) => {
+          await handleSearch(cityName);
           setIsExpanded(false);
      };
 
