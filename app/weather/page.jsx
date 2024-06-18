@@ -109,20 +109,22 @@ const WeatherDashboard = () => {
 
      return (
           <div className="relative min-h-screen bg-gray-900 flex flex-col justify-center items-center px-5">
-               <FavoriteComponent favoriteCount={favoriteCount} unit={unit} isExpanded={isExpanded} toggleExpanded={toggleExpanded} favoriteCities={favoriteCities} handleRemoveFavorite={handleRemoveFavorite} onFavoriteClick={handleFavoriteClick} />
-               <header className="text-center pt-10">
-                    <h1 className="text-3xl md:text-5xl font-bold text-gray-400 mb-4">Welcome to Weather Dashboard</h1>
-                    <p className="text-lg text-gray-500 mb-8">Your go-to app for weather forecasts & info</p>
-                    <div className="container mx-auto px-4 py-8 mb-10 shadow bg-gray-800 rounded-md">
-                         <SearchComponent onSearch={handleSearch} />
-                         {weatherData && (
-                              <WeatherDisplay weatherData={weatherData} unit={unit} toggleUnit={toggleUnit} addToFavorites={addToFavorites} removeFromFavorites={handleRemoveFavorite} isCityFavorite={isCityFavorite} />
-                         )}
-                         {forecastData && (
-                              <ForecastDisplay forecastData={forecastData} unit={unit} />
-                         )}
-                    </div>
-               </header>
+               <div className="relative z-10 flex flex-col justify-center items-center px-5">
+                    <FavoriteComponent favoriteCount={favoriteCount} unit={unit} isExpanded={isExpanded} toggleExpanded={toggleExpanded} favoriteCities={favoriteCities} handleRemoveFavorite={handleRemoveFavorite} onFavoriteClick={handleFavoriteClick} />
+                    <header className="text-center pt-10">
+                         <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Weather Dashboard</h1>
+                         <p className="text-lg text-gray-300 mb-8">Your go-to app for weather forecasts & info</p>
+                         <div className="container mx-auto px-4 py-8 mb-10 shadow bg-gray-800 bg-opacity-75 rounded-md">
+                              <SearchComponent onSearch={handleSearch} />
+                              {weatherData && (
+                                   <WeatherDisplay weatherData={weatherData} unit={unit} toggleUnit={toggleUnit} addToFavorites={addToFavorites} removeFromFavorites={handleRemoveFavorite} isCityFavorite={isCityFavorite} />
+                              )}
+                              {forecastData && (
+                                   <ForecastDisplay forecastData={forecastData} unit={unit} />
+                              )}
+                         </div>
+                    </header>
+               </div>
           </div>
      );
 };

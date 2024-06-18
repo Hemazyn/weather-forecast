@@ -3,7 +3,7 @@ import { MdFavorite } from "react-icons/md";
 import Notiflix from 'notiflix';
 
 const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeFromFavorites, isCityFavorite }) => {
-     const { id, name, main, weather } = weatherData;
+     const { id, name, main, weather, wind } = weatherData;
      const [isFavorite, setIsFavorite] = useState(isCityFavorite(name));
      const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeF
                     await removeFromFavorites(id, name);
                     Notiflix.Notify.success('Removed from favorites');
                } else {
-                    await addToFavorites({ id, name, main, weather });
+                    await addToFavorites({ id, name, main, weather, wind });
                     Notiflix.Notify.success('Added to favorites');
                }
                setIsFavorite(!isFavorite);
@@ -31,9 +31,9 @@ const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeF
      };
 
      return (
-          <div className="bg-gray-700 text-white p-4 rounded-md mt-8 shadow-inner">
-               <div className="flex justify-between items-center mb-2">
-                    <h2 className="text-xl font-semibold">{name}</h2>
+          <div className="bg-gray-800 text-white p-6 rounded-md mt-8 shadow-inner">
+               <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-semibold">{name}</h2>
                     <div className="flex items-center">
                          <button onClick={toggleUnit} className="text-gray-400 hover:text-gray-200 focus:outline-none">
                               {unit === 'metric' ? '°C' : '°F'}
@@ -43,11 +43,30 @@ const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeF
                          </button>
                     </div>
                </div>
-               <div className="flex items-center">
-                    <img src={`http://openweathermap.org/img/wn/${weather[0].icon}.png`} alt={weather[0].description} className="w-12 h-12 mr-2" />
+               <div className="flex items-center mb-4">
+                    <img src={`http://openweathermap.org/img/wn/${weather[0].icon}.png`} alt={weather[0].description} className="w-16 h-16 mr-4" />
                     <div className="flex flex-col">
-                         <p className="text-lg">{Math.round(main.temp)}°</p>
+                         <div className="flex">
+                              <p className="text-4xl">{Math.round(main.temp)}</p>
+                              <button onClick={toggleUnit} className="text-4xl text-gray400 hover:text-gray-200 focus:outline-none">
+                                   {unit === 'metric' ? '°C' : '°F'}
+                              </button>
+                         </div>
                          <p className="text-sm text-gray-400">{weather[0].description}</p>
+                    </div>
+               </div>
+               <div className="grid grid-cols-3  text-sm text-gray-400">
+                    <div className="flex flex-col items-center">
+                         <span className="text-base md:text-2xl text-gray-200">{wind.speed} m/s</span>
+                         <span className="text-xs md:text-sm">Wind Speed</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                         <span className="text-base md:text-2xl text-gray-200">{main.humidity}%</span>
+                         <span className="text-xs md:text-sm">Humidity</span>
+                    </div>
+                    <div className="flex flex-col items-center">
+                         <span className="text-base md:text-2xl text-gray-200">{main.pressure} hPa</span>
+                         <span className="text-xs md:text-sm">Pressure</span>
                     </div>
                </div>
           </div>
