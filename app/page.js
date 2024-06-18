@@ -10,10 +10,11 @@ const Home = () => {
 
   const handleClick = () => {
     setLoading(true);
+    Notiflix.Loading.standard();
     setTimeout(() => {
-      setLoading(false);
-      Notiflix.Loading.remove();
+      // setLoading(false);
       router.push('/weather');
+      Notiflix.Loading.remove();
     }, 2000);
   };
 

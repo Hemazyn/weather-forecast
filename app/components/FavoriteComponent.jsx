@@ -11,7 +11,7 @@ const FavoriteComponent = ({ favoriteCount, unit, isExpanded, toggleExpanded, fa
                     </button>
                </div>
                {isExpanded && (
-                    <div className="bg-gray-800 h-full text-white p-4 pt-10 rounded-e-md shadow-lg w-64">
+                    <div className="bg-gray-800 h-full text-white p-4 pt-10 rounded-e-md shadow-lg w-64 overflow-scroll">
                          <h3 className="text-lg mt-5 mb-3 font-semibold text-gray-300">Favorite Cities</h3>
                          <ul>
                               {favoriteCities.map((city, index) => (
@@ -29,7 +29,7 @@ const FavoriteComponent = ({ favoriteCount, unit, isExpanded, toggleExpanded, fa
                                                        </div>
                                                   )}
                                              </div>
-                                             <button onClick={() => handleRemoveFavorite(city.name)} className="ml-2 focus:outline-none">
+                                             <button onClick={() => handleRemoveFavorite(city.id, city.name)} className="ml-2 focus:outline-none">
                                                   <MdFavorite className="h-6 w-6" fill="red" />
                                              </button>
                                         </div>

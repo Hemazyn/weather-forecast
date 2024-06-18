@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MdFavorite } from "react-icons/md";
+import Notiflix from 'notiflix';
 
 const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeFromFavorites, isCityFavorite }) => {
-     const { name, main, weather } = weatherData;
+     const { id, name, main, weather } = weatherData;
      const [isFavorite, setIsFavorite] = useState(isCityFavorite(name));
      const [error, setError] = useState(null);
 
@@ -12,14 +13,20 @@ const WeatherDisplay = ({ weatherData, unit, toggleUnit, addToFavorites, removeF
 
      const handleFavoriteClick = async () => {
           try {
+               Notiflix.Loading.standard('Processing...');
                if (isFavorite) {
-                    await removeFromFavorites(name);
+                    await removeFromFavorites(id, name);
+                    Notiflix.Notify.success('Removed from favorites');
                } else {
-                    await addToFavorites({ name, main, weather });
+                    await addToFavorites({ id, name, main, weather });
+                    Notiflix.Notify.success('Added to favorites');
                }
                setIsFavorite(!isFavorite);
+               Notiflix.Loading.remove();
           } catch (error) {
                setError('Error toggling favorite. Please try again.');
+               Notiflix.Loading.remove();
+               Notiflix.Notify.failure('Failed to update favorites');
           }
      };
 

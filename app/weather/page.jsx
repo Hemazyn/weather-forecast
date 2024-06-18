@@ -1,10 +1,11 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from 'react';
 import SearchComponent from '../components/SearchComponent';
 import WeatherDisplay from '../components/WeatherDisplay';
 import FavoriteComponent from '../components/FavoriteComponent';
 import ForecastDisplay from '../components/ForecastDisplay';
 import { getFavoriteCities, addFavoriteCity, deleteFavoriteCity, fetchWeatherData } from '../api';
+import Notiflix from 'notiflix';
 
 const WeatherDashboard = () => {
      const [weatherData, setWeatherData] = useState(null);
@@ -51,11 +52,7 @@ const WeatherDashboard = () => {
           const newUnit = unit === 'metric' ? 'imperial' : 'metric';
           if (weatherData) {
                setWeatherData({
-                    ...weatherData,
-                    main: {
-                         ...weatherData.main,
-                         temp: convertTemperature(weatherData.main.temp, unit, newUnit)
-                    }
+                    ...weatherData, main: { ...weatherData.main, temp: convertTemperature(weatherData.main.temp, unit, newUnit) }
                });
           }
 
@@ -64,10 +61,7 @@ const WeatherDashboard = () => {
                     ...forecastData,
                     list: forecastData.list.map(item => ({
                          ...item,
-                         main: {
-                              ...item.main,
-                              temp: convertTemperature(item.main.temp, unit, newUnit)
-                         }
+                         main: { ...item.main, temp: convertTemperature(item.main.temp, unit, newUnit) }
                     }))
                });
           }
@@ -88,13 +82,15 @@ const WeatherDashboard = () => {
           }
      };
 
-     const handleRemoveFavorite = async (cityName) => {
+     const handleRemoveFavorite = async (cityId, cityName) => {
           try {
-               await deleteFavoriteCity(cityName);
-               setFavoriteCities(prevCities => prevCities.filter(city => city.name !== cityName));
+               await deleteFavoriteCity(cityId);
+               setFavoriteCities(prevCities => prevCities.filter(city => city.id !== cityId));
                setFavoriteCount(prevCount => prevCount - 1);
+               Notiflix.Notify.success(`Successfully removed ${cityName} from favorites`);
           } catch (error) {
                console.error('Error removing favorite city:', error);
+               Notiflix.Notify.failure(`Failed to remove ${cityName}`);
           }
      };
 
@@ -102,8 +98,8 @@ const WeatherDashboard = () => {
           return favoriteCities.some(city => city.name === cityName);
      };
 
-     const handleFavoriteClick = async (cityName) => {
-          await handleSearch(cityName);
+     const handleFavoriteClick = async (cityId) => {
+          await handleSearch(cityId);
           setIsExpanded(false);
      };
 
@@ -113,29 +109,14 @@ const WeatherDashboard = () => {
 
      return (
           <div className="relative min-h-screen bg-gray-900 flex flex-col justify-center items-center px-5">
-               <FavoriteComponent
-                    favoriteCount={favoriteCount}
-                    unit={unit}
-                    isExpanded={isExpanded}
-                    toggleExpanded={toggleExpanded}
-                    favoriteCities={favoriteCities}
-                    handleRemoveFavorite={handleRemoveFavorite}
-                    onFavoriteClick={handleFavoriteClick}
-               />
+               <FavoriteComponent favoriteCount={favoriteCount} unit={unit} isExpanded={isExpanded} toggleExpanded={toggleExpanded} favoriteCities={favoriteCities} handleRemoveFavorite={handleRemoveFavorite} onFavoriteClick={handleFavoriteClick} />
                <header className="text-center pt-10">
                     <h1 className="text-3xl md:text-5xl font-bold text-gray-400 mb-4">Welcome to Weather Dashboard</h1>
                     <p className="text-lg text-gray-500 mb-8">Your go-to app for weather forecasts & info</p>
                     <div className="container mx-auto px-4 py-8 mb-10 shadow bg-gray-800 rounded-md">
                          <SearchComponent onSearch={handleSearch} />
                          {weatherData && (
-                              <WeatherDisplay
-                                   weatherData={weatherData}
-                                   unit={unit}
-                                   toggleUnit={toggleUnit}
-                                   addToFavorites={addToFavorites}
-                                   removeFromFavorites={handleRemoveFavorite}
-                                   isCityFavorite={isCityFavorite}
-                              />
+                              <WeatherDisplay weatherData={weatherData} unit={unit} toggleUnit={toggleUnit} addToFavorites={addToFavorites} removeFromFavorites={handleRemoveFavorite} isCityFavorite={isCityFavorite} />
                          )}
                          {forecastData && (
                               <ForecastDisplay forecastData={forecastData} unit={unit} />

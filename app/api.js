@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Notiflix from 'notiflix';
 
 const API_KEY = process.env.NEXT_PUBLIC_WEATHER_APP_ID;
 const API_URL = 'http://localhost:5000';
 
-export const fetchWeatherData = async (city) => {
+export async function fetchWeatherData(city) {
      try {
           const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
           const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
@@ -23,7 +24,7 @@ export const fetchWeatherData = async (city) => {
      }
 };
 
-export const getFavoriteCities = async () => {
+export async function getFavoriteCities() {
      try {
           const response = await axios.get(`${API_URL}/favoriteCities`);
           return response.data;
@@ -33,7 +34,7 @@ export const getFavoriteCities = async () => {
      }
 };
 
-export const addFavoriteCity = async (city) => {
+export async function addFavoriteCity(city) {
      try {
           const response = await axios.post(`${API_URL}/favoriteCities`, city);
           return response.data;
@@ -43,14 +44,14 @@ export const addFavoriteCity = async (city) => {
      }
 };
 
-export const deleteFavoriteCity = async (cityName) => {
+export async function deleteFavoriteCity(cityId) {
      try {
-          const response = await axios.delete(`${API_URL}/favoriteCities`, {
-               data: { name: cityName }
-          });
-          return response.data;
+          const response = await axios.delete(`${API_URL}/favoriteCities/${cityId}`);
+          // return response.data;
+          console.log('City deleted successfully:', response.data);
+          Notiflix.Notify.success();
      } catch (error) {
           console.error('Error deleting favorite city:', error);
-          throw error;
+          Notiflix.Notify.failure();
      }
-};
+}

@@ -11,8 +11,8 @@ const SearchComponent = ({ onSearch }) => {
                Notiflix.Notify.warning('Please enter a city name.');
                return;
           }
+          Notiflix.Loading.standard();
           const isValidCity = await validateCity(city.trim());
-
           if (isValidCity) {
                onSearch(city.trim());
                Notiflix.Notify.success('City fetched successfully!');
@@ -20,6 +20,7 @@ const SearchComponent = ({ onSearch }) => {
           } else {
                Notiflix.Notify.failure('Invalid city name. Please enter a valid city.');
           }
+          Notiflix.Loading.remove();
      };
 
      const validateCity = async (cityName) => {
