@@ -38,7 +38,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/weather-info-forecast.git
+git clone https://github.com/Hemazyn/weather-forecast.git
 cd weather-info-forecast
 ```
 2. Install dependencies:
