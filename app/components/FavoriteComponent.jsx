@@ -15,7 +15,7 @@ const FavoriteComponent = ({ favoriteCount, unit, isExpanded, toggleExpanded, fa
                          <h3 className="text-lg mt-5 mb-3 font-semibold text-gray-300">Favorite Cities</h3>
                          <ul>
                               {favoriteCities.map((city, index) => (
-                                   <li key={index} className="mb-4 shadow p-3">
+                                   <li key={index} className="mb-4 shadow rounded-md p-3 hover:bg-gray-700">
                                         <div className="flex items-start justify-between">
                                              <div className="flex flex-col gap-2 cursor-pointer" onClick={() => onFavoriteClick(city.name)}>
                                                   <h4 className="text-gray-200">{city.name}</h4>

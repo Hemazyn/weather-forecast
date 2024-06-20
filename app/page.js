@@ -10,9 +10,10 @@ const Home = () => {
 
   const handleClick = () => {
     setLoading(true);
-    Notiflix.Loading.standard();
+    Notiflix.Loading.standard({
+      svgColor: 'rgb(40, 67, 135)',
+    });
     setTimeout(() => {
-      // setLoading(false);
       router.push('/weather');
       Notiflix.Loading.remove();
     }, 2000);
@@ -24,7 +25,7 @@ const Home = () => {
         <h1 className="text-3xl md:text-5xl font-bold text-gray-400 mb-4">Welcome to Weather Forecast</h1>
         <p className="text-lg text-gray-500 mb-8">Your go-to app for weather forecasts</p>
         <button onClick={handleClick} disabled={loading}
-          className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md shadow-md transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}  >
+          className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-md shadow-md transition duration-300 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} >
           {loading ? 'Loading...' : 'Go to Dashboard'}
         </button>
       </header>

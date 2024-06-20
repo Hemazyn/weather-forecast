@@ -11,7 +11,9 @@ const SearchComponent = ({ onSearch }) => {
                Notiflix.Notify.warning('Please enter a city name.');
                return;
           }
-          Notiflix.Loading.standard();
+          Notiflix.Loading.standard({
+               svgColor: 'rgb(40, 67, 135)',
+          });
           const isValidCity = await validateCity(city.trim());
           if (isValidCity) {
                onSearch(city.trim());
